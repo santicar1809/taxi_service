@@ -1,0 +1,1 @@
+Estadística KPSS: 0.07209700232043853Valor p: 0.1Valores críticos:   10%: 0.347   5%: 0.463   2.5%: 0.574   1%: 0.739La serie temporal es estacionaria.

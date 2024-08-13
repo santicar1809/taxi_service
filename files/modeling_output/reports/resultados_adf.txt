@@ -1,0 +1,7 @@
+Estadística ADF: -3.0689242890279576
+Valor p: 0.0289400514026128
+Valores críticos:
+   1%: -3.431842162413052
+   5%: -2.8621993540813637
+   10%: -2.567120978470452
+La serie temporal es estacionaria.
