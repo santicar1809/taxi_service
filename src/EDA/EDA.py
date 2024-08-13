@@ -273,7 +273,7 @@ def eda_report(data):
     # Calcular el error de pronóstico
     error = mean_squared_error(test_arima, predictions)**0.5
     with open(reports_path+'autoarima_error.txt','w') as file:
-        file.write('Error:',error)
+        file.write(f'Error: {error}')
     
     fig_12=resultados(train_arima,test_arima,predictions)
     fig_12.savefig(eda_path+'autoarima.png')
