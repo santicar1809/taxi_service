@@ -1,0 +1,33 @@
+model,best_estimator,best_train_score,validation_score
+Linreg,"Pipeline(steps=[('scaler', StandardScaler()), ('Linreg', LinearRegression())])",-1037.3684998546419,52.636608586271166
+XGboost,"Pipeline(steps=[('scaler', StandardScaler()),
+                ('xgboost',
+                 XGBRegressor(base_score=None, booster=None, callbacks=None,
+                              colsample_bylevel=None, colsample_bynode=None,
+                              colsample_bytree=0.7, device=None,
+                              early_stopping_rounds=None, eg_lambda=1,
+                              enable_categorical=False, eval_metric=None,
+                              feature_types=None, gamma=0, grow_policy=None,
+                              importance_type=None,
+                              interaction_constraints=None, learning_rate=0.2,
+                              max_bin=None, max_cat_threshold=None,
+                              max_cat_to_onehot=None, max_delta_step=None,
+                              max_depth=3, max_leaves=None,
+                              min_child_weight=None, missing=nan,
+                              monotone_constraints=None, multi_strategy=None,
+                              n_estimators=50, n_jobs=None,
+                              num_parallel_tree=None, ...))])",-776.0868131292632,46.46008543083144
+LGBM,"Pipeline(steps=[('scaler', StandardScaler()),
+                ('lightgbm', LGBMRegressor(max_depth=3))])",-803.875601888085,46.20097504625511
+Random_Forest,"Pipeline(steps=[('scaler', StandardScaler()),
+                ('random_forest',
+                 RandomForestRegressor(max_depth=10, min_samples_split=10,
+                                       random_state=1234))])",-849.221111484752,47.2386318369208
+cat,"Pipeline(steps=[('scaler', StandardScaler()),
+                ('cat',
+                 <catboost.core.CatBoostRegressor object at 0x0000019E63A675F0>)])",-791.4302847801412,47.43680833785533
+dt,"Pipeline(steps=[('scaler', StandardScaler()),
+                ('dt',
+                 DecisionTreeRegressor(max_depth=4, max_features=4,
+                                       min_samples_leaf=2))])",-1182.4299868621451,60.414686933492696
+Keras,,,219.78959054457812

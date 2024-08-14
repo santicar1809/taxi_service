@@ -1,10 +1,15 @@
 from sklearn.linear_model import LogisticRegression, LinearRegression
 from sklearn.preprocessing import StandardScaler, MinMaxScaler
 from sklearn.pipeline import Pipeline
-from xgboost import XGBClassifier
-from lightgbm import LGBMClassifier
-from sklearn.ensemble import RandomForestClassifier
-from catboost import CatBoostClassifier
+
+from sklearn.tree import DecisionTreeRegressor
+from sklearn.ensemble import RandomForestRegressor
+from sklearn.linear_model import LinearRegression
+from lightgbm import LGBMRegressor
+from xgboost import XGBRegressor
+from catboost import Pool, CatBoostRegressor
+from statsmodels.tsa.seasonal import seasonal_decompose
+import numpy as np
 
 ## Logistic Regression Model
 def all_models():
@@ -12,35 +17,36 @@ def all_models():
     grid search '''
 
     lr_pipeline = Pipeline([
-        ('scale', StandardScaler()),
-        ('logreg', LogisticRegression(max_iter=10000))
+        ('scaler',StandardScaler()),
+        ('Linreg', LinearRegression())
     ])
 
     lr_param_grid = {
-            'logreg__penalty': [ 'l1', 'l2', None],  # Regularización
-            'logreg__C': [0.01, 0.1, 1, 10, 100],  # Fuerza de la regularización
-            'logreg__solver': ['saga'], # ['newton-cg', 'lbfgs', 'liblinear', 'sag', 'saga'],  # Algoritmo de optimización
-            #'logreg__l1_ratio': np.linspace(0, 1, 10)  # Solo si el solver es 'saga' y penalty es 'elasticnet'
         }
 
-    lr = ['Logreg',lr_pipeline,lr_param_grid]
+    lr = ['Linreg',lr_pipeline,lr_param_grid]
 
     xg_pipeline = Pipeline([
-        ('scale', StandardScaler()),
-        ('xgboost', XGBClassifier(random_state=1234))
+        ('scaler',StandardScaler()),
+        ('xgboost', XGBRegressor(random_state=1234))
     ])
 
     xg_param_grid = {
-        'xgboost__max_depth': [3, 5, 7],  # Profundidad máxima del árbol
-        'xgboost__learning_rate': [0.1, 0.01, 0.001],  # Tasa de aprendizaje
-        'xgboost__n_estimators': [100, 500, 1000],  # Número de árboles en el bosque
-    }
+    'xgboost__n_estimators': [50, 100, 200],
+    'xgboost__max_depth': [3, 5, 7],
+    'xgboost__learning_rate': [0.01, 0.1, 0.2],
+    'xgboost__subsample': [0.7, 0.8, 1.0],
+    'xgboost__colsample_bytree': [0.3, 0.7, 1.0],
+    'xgboost__gamma': [0, 0.1, 0.3],
+    'xgboost__reg_alpha': [0, 0.1, 1],  # Regularización L1
+    'xgboost__eg_lambda': [1, 1.5, 2],  # Regularización L2
+}
 
     xg = ['XGboost',xg_pipeline,xg_param_grid]
     
     lgbm_pipeline = Pipeline([
-        ('scale', StandardScaler()),
-        ('lightgbm', LGBMClassifier())
+        ('scaler',StandardScaler()),
+        ('lightgbm', LGBMRegressor())
     ])
 
     lgbm_param_grid = {
@@ -49,13 +55,13 @@ def all_models():
         'lightgbm__n_estimators': [100, 500, 1000],  # Número de árboles en el bosque
         
     }
+    
     lgbm = ['LGBM',lgbm_pipeline,lgbm_param_grid]
         
     
     rf_pipeline = Pipeline([
-    ('scale', StandardScaler()),
-    # ('preprocessor', preprocessor),
-    ('random_forest', RandomForestClassifier(random_state=1234))])
+    ('scaler',StandardScaler()),
+    ('random_forest', RandomForestRegressor(random_state=1234))])
 
     # Crear el grid de parámetros para Random Forest
     rf_param_grid = {
@@ -74,11 +80,23 @@ def all_models():
     }
     
     cat_pipeline = Pipeline([
-    ('scale',StandardScaler()),
-    ('cat',CatBoostClassifier(random_state=1234))])
+    ('scaler',StandardScaler()),
+    ('cat',CatBoostRegressor(random_state=1234))])
     
     cat = ['cat',cat_pipeline,cat_param_grid]
     
-    models = [lr,xg,lgbm,rf,cat] #Activate to run all the models
+    dt_pipeline=Pipeline([
+    ('scaler',StandardScaler()),
+    ('dt',DecisionTreeRegressor())])
+    
+    dt_params={
+        'dt__max_depth': [3,4,2,1],
+        'dt__max_features':[np.random.randint(1, 9)],
+        'dt__min_samples_leaf': [1, 2, 4]
+    }
+    
+    dt=['dt',dt_pipeline,dt_params]
+    
+    models = [lr,xg,lgbm,rf,cat,dt] #Activate to run all the models
     
     return models

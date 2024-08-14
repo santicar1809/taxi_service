@@ -103,6 +103,7 @@ def eda_report(data):
     fig_4,ax_4=plt.subplots()
     ax_4.plot(descomposed.seasonal['2018-08-01':'2018-08-08'])
     ax_4.set_title('Análisis de la estacionalidad para los primeros 8 días de agosto')
+    ax_4.set_xticklabels(ax_4.get_xticklabels(), rotation=90)
     fig_4.savefig(eda_path+'fig_4.png')
     
     # Diferencias de series temporales
@@ -131,6 +132,7 @@ def eda_report(data):
     ax_6.plot(data_shifted['mean'],color='red')
     ax_6.plot(data_shifted['std'],color='black')
     ax_6.set_title('Diferencias de series temporales para los primeros 8 días de agosto')
+    ax_6.set_xticklabels(ax_6.get_xticklabels(), rotation=90)
     fig_6.savefig(eda_path+'fig_6.png')
     
     # Prueba Augmented Dikey-Fuller test
